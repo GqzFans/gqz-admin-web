@@ -52,7 +52,7 @@
               <el-card class="box-card-left">
                   <div class="block">
                       <el-carousel height="150px">
-                          <el-carousel-item v-for="item in bannerList" :key="item">
+                          <el-carousel-item v-for="item in bannerList" :key="item.title">
                               <img :src="item.imgUrl" :alt="item.title" class="banner-img"/>
                           </el-carousel-item>
                       </el-carousel>
