@@ -1,4 +1,4 @@
-<style>
+<style lang='scss'>
     * {
         margin: 0;
         padding: 0;
@@ -41,6 +41,30 @@
         font-size: 14px;
         color: #FFF;
     }
+    .showBtn {
+        height: 30px;
+        text-align: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        font-size: 12px;
+        line-height: 30px;
+        color: #FFF;
+    }
+    .menu-icon-font {
+        height: 50px;
+        width: 100%;
+        font-size: 14px;
+        .menu-icon-font {
+            font-size: 14px;
+            &:before {
+                transform: rotate(90deg);
+                display: inline-block;
+                transition: all .1s ease;
+            }
+        }
+    }
 </style>
 <template>
     <div class="warp" id="app">
@@ -56,7 +80,11 @@
         </el-header>
         <el-row class="left-menu">
           <el-col class="left-menu-width">
+              <!--<div class='showBtn'>-->
+                  <!--<span class="el-icon-more menu-icon-font"></span>-->
+              <!--</div>-->
               <el-menu
+                  :collapse="isCollapse"
                   :router="true"
                   :default-active='activeId'
                   class="el-menu-vertical-demo"
@@ -74,10 +102,10 @@
                       </template>
                       <el-menu-item-group title="图片系列">
                           <el-menu-item index="1-1" :route='{path: menuList[1].path}'>图片管理</el-menu-item>
-                          <el-menu-item index="1-2" >表情包管理</el-menu-item>
+                          <el-menu-item index="1-2" :route='{path: menuList[2].path}'>表情包管理</el-menu-item>
                       </el-menu-item-group>
                       <el-menu-item-group title="视频系列">
-                          <el-menu-item index="1-3">视频管理</el-menu-item>
+                          <el-menu-item index="2" disabled>视频管理</el-menu-item>
                       </el-menu-item-group>
                   </el-submenu>
                   <el-menu-item index="3">
@@ -96,10 +124,12 @@
     export default {
         data() {
             return {
+                isCollapse: false,
                 // fixme 这里不应该这样写，没有易用性。
                 menuList: [
                     {id: '0', path: '/index'}, // 首页
-                    {id: '1-1', path: '/content/toImage'} // 图片管理
+                    {id: '1-1', path: '/content/toImage'}, // 图片管理
+                    {id: '1-2', path: '/content/toEmoticon'} // 图片管理
                 ]
             };
         },
@@ -107,14 +137,14 @@
         },
         computed: {
             activeId() {
+                let _this = this;
                 // 根据路由匹配选中项
                 var activeId = null;
-                this.menuList.forEach((item) => {
-                    if (item.path === this.$route.path) {
+                _this.menuList.forEach((item) => {
+                    if (item.path === _this.$route.path) {
                         activeId = item.id;
-                    } else {
-                        activeId = '';
                     }
+                    // 暂时不判断else
                 });
                 return activeId;
             }
