@@ -39,7 +39,7 @@
         <el-form :inline="true" :model="filterModel" ref="filterModel" label-width="100px" class="form-cls">
             <div>
                 <el-form-item label="创建人" prop="createUserName">
-                    <el-input class = "input-104" v-model="filterModel.createUserName" placeholder="创建人名称"></el-input>
+                    <el-input class="input-104" v-model="filterModel.createUserName" placeholder="创建人名称"></el-input>
                 </el-form-item>
                 <el-form-item label="创建时间" prop="createTime">
                     <el-date-picker
@@ -99,7 +99,7 @@
                     label="操作"
                     fixed="right"
                     width="120">
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         <el-button class="xe-textBtn" type="text" size="small" @click="dropThis(scope.row)">
                             下架
                         </el-button>
