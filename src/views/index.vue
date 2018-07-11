@@ -1,158 +1,164 @@
-<style>
-    .clearFix:before, .clearFix:after {
-        display: table;
-        content: "";
-    }
-    .clearFix:after {
-        clear: both
-    }
-    .box-card-left {
-        width: 460px;
-        margin: 20px 0 0 30px;
-    }
-    .box-card-right {
-        width: 600px;
-        margin: 20px 0 0 30px;
-    }
-    .left-data-div {
-        margin: -3px 0 5px 0;
-    }
-    .count {
-        color: #F56C6C;
-    }
-    .stroke-style {
-        margin-top: 5px;
-    }
-    /**
-     * 走马灯
-     */
-    .el-carousel__item h3 {
-        color: #475669;
-        font-size: 14px;
-        opacity: 0.75;
-        line-height: 150px;
+<style lang='scss'>
+    * {
         margin: 0;
+        padding: 0;
     }
-    .banner-img {
+    html, body, .warp {
+        height: 100%;
+        overflow-y: hidden;
+    }
+    div:nth-child(1) {
+        height: 100%;
+    }
+    .left-menu {
+        height: 100%;
+    }
+    .left-menu-width {
+        width: 220px;
+        height: 100%;
+    }
+    .el-menu-vertical-demo {
+        height: 100% !important;
+    }
+    .w-top {
+        height: 56px;
+        width: 100%;
+        background-color: rgb(84, 92, 100);
+    }
+    .w-top-title {
+        color: azure;
+        font-family: "Adobe Kaiti Std";
+        font-size: 15pt;
+        text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87;
+        margin: 6px 0 0 -5px;
+        display: inline-block;
+    }
+    .w-top-drop-down {
+        line-height: 62px;
+        float: right;
+        color: #FFF;
+        margin-left: 13px;
+    }
+    .w-top-user {
+        line-height: 60px;
+        float: right;
+        font-size: 14px;
+        color: #FFF;
+    }
+    .showBtn {
+        height: 30px;
+        text-align: center;
         position: absolute;
         top: 0;
-        bottom: 0;
         left: 0;
         right: 0;
+        font-size: 12px;
+        line-height: 30px;
+        color: #FFF;
+    }
+    .menu-icon-font {
+        height: 50px;
         width: 100%;
-        margin: auto;
-        z-index: -1;
-        *zoom: 1;
+        font-size: 14px;
+        .menu-icon-font {
+            font-size: 14px;
+            &:before {
+                transform: rotate(90deg);
+                display: inline-block;
+                transition: all .1s ease;
+            }
+        }
     }
 </style>
 <template>
-  <div>
-      <el-row :gutter="20">
-          <el-col :span="9">
-              <el-card class="box-card-left">
-                  <div class="block">
-                      <el-carousel height="150px">
-                          <el-carousel-item v-for="item in bannerList" :key="item.title">
-                              <img :src="item.imgUrl" :alt="item.title" class="banner-img"/>
-                          </el-carousel-item>
-                      </el-carousel>
-                  </div>
-              </el-card>
-              <el-card class="box-card-left">
-                  <div slot="header" class="clearFix">
-                      <span>资源站 - 资源数据统计</span>
-                  </div>
-                  <div class="left-data-div">
-                      <span>图片数量：</span>
-                      <i class="count">56</i>
-                  </div>
-                  <div class="left-data-div">
-                      <span>视频数量：</span>
-                      <i class="count">13</i>
-                  </div>
-                  <div class="left-data-div">
-                      <span>表情包数量：</span>
-                      <i class="count">56</i>
-                  </div>
-              </el-card>
-              <el-card class="box-card-left">
-                  <div slot="header" class="clearFix">
-                      <span>资源站 - 新增资源数据统计（月统计）</span>
-                  </div>
-                  <div style="margin-top: -9px;">
-                      <span>图片上传占比：</span>
-                      <el-progress :text-inside="true" :stroke-width="18" :percentage="80" color="#67C23A" class="stroke-style"></el-progress>
-                  </div>
-                  <div style="margin-top: 10px;">
-                      <span>视频上传占比：</span>
-                      <el-progress :text-inside="true" :stroke-width="18" :percentage="30" color="rgba(142, 113, 199, 0.7)" class="stroke-style"></el-progress>
-                  </div>
-                  <div style="margin-top: 10px;">
-                      <span>表情包上传占比：</span>
-                      <el-progress :text-inside="true" :stroke-width="18" :percentage="57.3" color="rgb(32, 160, 255)" class="stroke-style"></el-progress>
-                  </div>
-              </el-card>
-          </el-col>
-          <el-col :span="12">
-              <el-card class="box-card-right">
-                  <div slot="header" class="clearFix">
-                      <span>最近登录的用户</span>
-                  </div>
-                  <div style="margin-top: -15px;">
-                      <el-table
-                          :data="userTableData"
-                          style="width: 100%">
-                          <el-table-column
-                              prop="date"
-                              label="日期">
-                          </el-table-column>
-                          <el-table-column
-                              prop="userName"
-                              label="用户ID">
-                          </el-table-column>
-                      </el-table>
-                  </div>
-              </el-card>
-              <el-card class="box-card-right">
-                  <span style="margin-bottom: 10px; display: inline-block;">近期上线功能</span>
-                  <el-collapse v-model="activeNames">
-                      <el-collapse-item title="2018.07.06 14:54:23" name="1">
-                          <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
-                          <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
-                      </el-collapse-item>
-                      <el-collapse-item title="反馈 Feedback" name="2">
-                          <div>控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；</div>
-                          <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
-                      </el-collapse-item>
-                  </el-collapse>
-              </el-card>
-          </el-col>
-      </el-row>
-  </div>
+    <div class="warp" id="app">
+        <el-header class="w-top">
+            <span class="w-top-title">{{GLOBAL_DOMAIN_INFO}}</span>
+            <el-dropdown class="w-top-drop-down">
+                <i class="el-icon-setting"></i>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item>退出</el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
+            <span class="w-top-user">{{userNickName}}</span>
+        </el-header>
+        <el-row class="left-menu">
+            <el-col class="left-menu-width">
+                <el-menu
+                    :collapse="isCollapse"
+                    :router="true"
+                    :default-active='activeId'
+                    class="el-menu-vertical-demo"
+                    background-color="#545c64"
+                    text-color="#fff"
+                    active-text-color="#ffd04b">
+                    <el-menu-item index="0" :route='{path: menuList[0].path}'>
+                        <i class="el-icon-info"></i>
+                        <span slot="title">首页</span>
+                    </el-menu-item>
+                    <el-submenu index="1">
+                        <template slot="title">
+                            <i class="el-icon-menu"></i>
+                            <span>内容管理</span>
+                        </template>
+                        <el-menu-item-group title="图片系列">
+                            <el-menu-item index="1-1" :route='{path: menuList[1].path}'>图片管理</el-menu-item>
+                            <el-menu-item index="1-2" :route='{path: menuList[2].path}'>表情包管理</el-menu-item>
+                        </el-menu-item-group>
+                        <el-menu-item-group title="视频系列">
+                            <el-menu-item index="2" disabled>视频管理</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
+                    <el-menu-item index="3">
+                        <i class="el-icon-setting"></i>
+                        <span slot="title">用户管理</span>
+                    </el-menu-item>
+                </el-menu>
+            </el-col>
+            <el-col :span="20">
+                <router-view></router-view>
+            </el-col>
+        </el-row>
+    </div>
 </template>
 <script>
-export default {
-    data() {
-        return {
-            bannerList: [
-                { imgUrl: require('../assets/admin-banner/banner-1.jpg'), title: 'banner_1' },
-                { imgUrl: require('../assets/admin-banner/banner-2.jpg'), title: 'banner_2' },
-                { imgUrl: require('../assets/admin-banner/banner-3.jpg'), title: 'banner_3' }
-            ],
-            activeNames: ['1'],
-            userTableData: [
-                { date: '2018.07.06 14:54:23', userName: 'dragon' },
-                { date: '2018.07.06 14:54:23', userName: 'dragon' },
-                { date: '2018.07.06 14:54:23', userName: 'dragon' },
-                { date: '2018.07.06 14:54:23', userName: 'dragon' },
-                { date: '2018.07.06 14:54:23', userName: 'dragon' }
-            ]
-        };
-    },
-    created() {
-    },
-    methods: {
-    }
-};
+    import MyCookies from 'src/utils/MyCookies';
+    export default {
+        data() {
+            return {
+                isCollapse: false,
+                userNickName: '',
+                // fixme 这里不应该这样写，没有易用性。
+                menuList: [
+                    {id: '0', path: '/dashboard'}, // 首页
+                    {id: '1-1', path: '/content/toImage'}, // 图片管理
+                    {id: '1-2', path: '/content/toEmoticon'} // 图片管理
+                ]
+            };
+        },
+        created() {
+            this.getUserInfo();
+        },
+        computed: {
+            activeId() {
+                let _this = this;
+                // 根据路由匹配选中项
+                var activeId = null;
+                _this.menuList.forEach((item) => {
+                    if (item.path === _this.$route.path) {
+                        activeId = item.id;
+                    }
+                    // 暂时不判断else
+                });
+                return activeId;
+            }
+        },
+        methods: {
+            getUserInfo() {
+                var nowCookie = MyCookies.getNowCookie();
+                console.log('nowCookie', nowCookie);
+                this.userNickName = nowCookie.userInfo.userNickName;
+            }
+        }
+    };
 </script>
-
