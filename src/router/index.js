@@ -63,6 +63,16 @@ export default [
                 name: 'contentEmoticonUpload',
                 path: '/content/toEmoticonUpload',
                 component: resolve => require(['../views/content/toEmoticonUpload'], resolve)
+            },
+            {
+                meta: {
+                    name: '用户管理',
+                    keepAlive: false,
+                    auth: true
+                },
+                name: 'userManagementIndex',
+                path: '/system/toUserManagement',
+                component: resolve => require(['../views/system/toUserManagementIndex'], resolve)
             }
         ]
     },

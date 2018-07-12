@@ -22,7 +22,7 @@
         border-top-right-radius: 30px;
         border-bottom-right-radius: 30px;
         width: 835px;
-        height: 470px;
+        height: 470px !important;
         margin: auto;
         position: absolute;
         top: 0;
