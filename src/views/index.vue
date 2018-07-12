@@ -7,7 +7,7 @@
         height: 100%;
         overflow-y: hidden;
     }
-    div:nth-child(1) {
+    body>div:first-child {
         height: 100%;
     }
     .left-menu {
@@ -92,7 +92,7 @@
                     background-color="#545c64"
                     text-color="#fff"
                     active-text-color="#ffd04b">
-                    <el-menu-item index="0" :route='{path: menuList[0].path}'>
+                    <el-menu-item index="0" :route='{path: mainMenuList[0].path}'>
                         <i class="el-icon-info"></i>
                         <span slot="title">首页</span>
                     </el-menu-item>
@@ -102,17 +102,20 @@
                             <span>内容管理</span>
                         </template>
                         <el-menu-item-group title="图片系列">
-                            <el-menu-item index="1-1" :route='{path: menuList[1].path}'>图片管理</el-menu-item>
-                            <el-menu-item index="1-2" :route='{path: menuList[2].path}'>表情包管理</el-menu-item>
+                            <el-menu-item index="1-1" :route='{path: contentMenuList[0].path}'>图片管理</el-menu-item>
+                            <el-menu-item index="1-2" :route='{path: contentMenuList[1].path}'>表情包管理</el-menu-item>
                         </el-menu-item-group>
                         <el-menu-item-group title="视频系列">
-                            <el-menu-item index="2" disabled>视频管理</el-menu-item>
+                            <el-menu-item index="1-3" disabled>视频管理</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
-                    <el-menu-item index="3">
-                        <i class="el-icon-setting"></i>
-                        <span slot="title">用户管理</span>
-                    </el-menu-item>
+                    <el-submenu index="2">
+                        <template slot="title">
+                            <i class="el-icon-setting"></i>
+                            <span>系统管理</span>
+                        </template>
+                        <el-menu-item index="2-1" :route='{path: systemMenuList[0].path}'>用户管理</el-menu-item>
+                    </el-submenu>
                 </el-menu>
             </el-col>
             <el-col :span="20">
@@ -131,11 +134,17 @@
             return {
                 isCollapse: false,
                 userNickName: '',
-                // fixme 这里不应该这样写，没有易用性。
-                menuList: [
-                    {id: '0', path: '/dashboard'}, // 首页
+                // fixme 这里不应该这样写，没有易用性，考虑后期维护
+                menuList: [],
+                mainMenuList: [
+                    {id: '0', path: '/dashboard'} // 首页
+                ],
+                contentMenuList: [
                     {id: '1-1', path: '/content/toImage'}, // 图片管理
                     {id: '1-2', path: '/content/toEmoticon'} // 图片管理
+                ],
+                systemMenuList: [
+                    {id: '2-1', path: '/system/toUserManagement'} // 用户管理
                 ]
             };
         },
@@ -145,6 +154,8 @@
         computed: {
             activeId() {
                 let _this = this;
+                _this.menuList = [].concat(_this.mainMenuList).concat(_this.contentMenuList).concat(_this.systemMenuList);
+                // console.log('menuList = ', _this.menuList);
                 // 根据路由匹配选中项
                 var activeId = null;
                 _this.menuList.forEach((item) => {
@@ -158,7 +169,7 @@
         methods: {
             getUserInfo() {
                 var nowCookie = MyCookies.getNowCookie();
-                console.log('nowCookie', nowCookie);
+                // console.log('nowCookie', nowCookie);
                 if (nowCookie.token === null || nowCookie.token === '') {
                     this.$message.error('请重新登录');
                     this.$router.push({ name: 'login' });

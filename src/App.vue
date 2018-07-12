@@ -1,4 +1,5 @@
 <style lang="scss">
+    @import "assets/style/rules";
 </style>
 <template lang="html">
     <div>

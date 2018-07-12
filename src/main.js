@@ -46,7 +46,8 @@ import {
     Progress,
     MessageBox,
     Message,
-    Notification
+    Notification,
+    Tag
 } from 'element-ui';
 const components = [
     Header,
@@ -82,7 +83,8 @@ const components = [
     Progress,
     MessageBox,
     Message,
-    Notification
+    Notification,
+    Tag
 ];
 
 Vue.prototype.$msgbox = MessageBox;
