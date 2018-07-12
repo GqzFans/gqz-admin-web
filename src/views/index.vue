@@ -77,7 +77,7 @@
             <el-dropdown class="w-top-drop-down">
                 <i class="el-icon-setting"></i>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>退出</el-dropdown-item>
+                    <el-dropdown-item @click.native="logOut()">退出</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
             <span class="w-top-user">{{userNickName}}</span>
@@ -122,7 +122,10 @@
     </div>
 </template>
 <script>
+    // 获取用户Cookie信息
     import MyCookies from 'src/utils/MyCookies';
+    // 调用登出方法
+    import LogOut from 'src/utils/LogOut';
     export default {
         data() {
             return {
@@ -148,7 +151,6 @@
                     if (item.path === _this.$route.path) {
                         activeId = item.id;
                     }
-                    // 暂时不判断else
                 });
                 return activeId;
             }
@@ -156,8 +158,11 @@
         methods: {
             getUserInfo() {
                 var nowCookie = MyCookies.getNowCookie();
-                console.log('nowCookie', nowCookie);
+                // console.log('nowCookie', nowCookie);
                 this.userNickName = nowCookie.userInfo.userNickName;
+            },
+            logOut() {
+                LogOut();
             }
         }
     };

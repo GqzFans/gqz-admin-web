@@ -7,6 +7,8 @@ import routes from './router';
 import axios from 'axios';
 import MyToken from 'src/utils/MyToken';
 import EncryptUtil from 'src/utils/EncryptUtil';
+// 调用登出方法
+import LogOut from 'src/utils/LogOut';
 // UI
 import 'element-ui/lib/theme-chalk/index.css';
 // 按需引入组件
@@ -128,8 +130,8 @@ Vue.prototype.$http.interceptors.response.use((res) => {
         if (res.data.code === 100009 || res.data.code === 100010 || res.data.code === 100006 || res.data.code === 403) {
             // TOKEN解析失败 || 操作频率过快, 您的帐号已被冻结 || 会话超时,请刷新页面重试 || jwt验签失败,DTO为空
             Message.error(res.data.message);
-            // LogOut();
-            window.location.href = '';
+            LogOut();
+            // window.location.href = '';
             return Promise.reject(res);
         } else {
             Message.error(res.data.message);
