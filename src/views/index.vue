@@ -158,8 +158,13 @@
         methods: {
             getUserInfo() {
                 var nowCookie = MyCookies.getNowCookie();
-                // console.log('nowCookie', nowCookie);
-                this.userNickName = nowCookie.userInfo.userNickName;
+                console.log('nowCookie', nowCookie);
+                if (nowCookie.token === null || nowCookie.token === '') {
+                    this.$message.error('请重新登录');
+                    this.$router.push({ name: 'login' });
+                } else {
+                    this.userNickName = nowCookie.userInfo.userNickName;
+                }
             },
             logOut() {
                 LogOut();
