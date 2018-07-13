@@ -10,7 +10,7 @@
         padding: 8px 16px 24px;
     }
     .page-addbtn-panel {
-        margin-top: 15px;
+        margin-top: 15px !important;
         padding-bottom: 8px;
     }
     .page-header {
@@ -137,7 +137,7 @@
         },
         methods: {
             addUser() {
-                this.$router.push({name: 'contentEmoticonUpload'});
+                this.$router.push({name: 'userManagementRegister'});
             },
             handleSizeChange(page) {
                 if (page !== 0) {
@@ -146,14 +146,13 @@
                 }
             },
             handleCurrentChange(page) {
-                console.log(page, 'page');
                 this.currPage = page;
                 this.requestTableData(this.currPage, this.filterModel);
             },
             requestTableData(postNum, postData) {
                 let _this = this;
                 let data = {
-                    pageNum: _this.pageNum,
+                    pageNum: postNum,
                     pageSize: _this.pageSize,
                     param: postData
                 };

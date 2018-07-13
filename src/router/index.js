@@ -73,6 +73,16 @@ export default [
                 name: 'userManagementIndex',
                 path: '/system/toUserManagement',
                 component: resolve => require(['../views/system/toUserManagementIndex'], resolve)
+            },
+            {
+                meta: {
+                    name: '注册用户',
+                    keepAlive: false,
+                    auth: true
+                },
+                name: 'userManagementRegister',
+                path: '/system/toUserManagementRegister',
+                component: resolve => require(['../views/system/toUserManagementRegister'], resolve)
             }
         ]
     },

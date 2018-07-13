@@ -5,7 +5,6 @@
     }
     html, body {
         height: 100%;
-        overflow-y: hidden;
     }
     div:nth-child(0) {
         height: 100%;
@@ -154,7 +153,6 @@
                     url: '/api/uac/auth/login/login',
                     data: loginParam
                 }).then(res => {
-                    console.log(res);
                     let getUserInfo = res.result;
                     let info = {
                         userId: getUserInfo.id,

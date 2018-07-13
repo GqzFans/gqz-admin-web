@@ -21,7 +21,7 @@
         width: 500px !important;
     }
     .margin-top-10 .el-form-item label {
-        margin-left: -30px;
+        margin-left: -20px !important;
     }
 </style>
 <template>
@@ -50,8 +50,8 @@
                     type="info"
                     :closable="false">
                 </el-alert>
-                <el-upload
-                    action="https://jsonplaceholder.typicode.com/posts/"
+                <el-upload :headers="token" name="image"
+                    :action="actionUrl"
                     list-type="picture-card"
                     :on-preview="handlePictureCardPreview"
                     :on-remove="handleRemove">
@@ -72,6 +72,7 @@
     </div>
 </template>
 <script>
+    import MyCookies from '../../utils/MyCookies';
     export default {
         data() {
             return {
@@ -79,7 +80,9 @@
                 dialogVisible: false,
                 addModel: {
                     contentInfo: '高秋梓资源站'
-                }
+                },
+                token: {Authorization: 'Bearer ' + MyCookies.getNowCookie().token},
+                actionUrl: '/api/common/file/uploadImage'
             };
         },
         created() {

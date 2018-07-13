@@ -47,7 +47,9 @@ import {
     MessageBox,
     Message,
     Notification,
-    Tag
+    Tag,
+    Radio,
+    RadioGroup
 } from 'element-ui';
 const components = [
     Header,
@@ -84,9 +86,12 @@ const components = [
     MessageBox,
     Message,
     Notification,
-    Tag
+    Tag,
+    Radio,
+    RadioGroup
 ];
 
+Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
 Vue.prototype.$confirm = MessageBox.confirm;

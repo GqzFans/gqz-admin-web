@@ -2,6 +2,7 @@ import axios from 'axios';
 import MyCookies from './MyCookies';
 import Cookie from 'js-cookie';
 import TokenInfoKeys from './MyTokenInfoKeys';
+import LogOut from './LogOut';
 export default {
     domainUrl: '.dragon-yuan.me',
     tokenInfoKeys: TokenInfoKeys.getEnv(),
@@ -31,7 +32,11 @@ export default {
             method: 'post',
             url: '/api/uac/auth/token/getTokenAgain'
         }).then((res) => {
-            this.set(res.data.result);
+            if (res.code === 200) {
+                this.set(res.data.result);
+            } else {
+                LogOut(false, false);
+            }
         }).catch((err) => {
             console.log(err);
         });
