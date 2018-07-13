@@ -21,7 +21,7 @@
         width: 500px !important;
     }
     .margin-top-10 .el-form-item label {
-        margin-left: -30px;
+        margin-left: -70px;
     }
 </style>
 <template>

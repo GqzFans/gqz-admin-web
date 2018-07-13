@@ -91,6 +91,7 @@ const components = [
     RadioGroup
 ];
 
+Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
 Vue.prototype.$confirm = MessageBox.confirm;

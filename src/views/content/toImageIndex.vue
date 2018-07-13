@@ -14,7 +14,7 @@
         padding-bottom: 8px;
     }
     .form-cls {
-        margin: 10px 0 0 -30px;
+        margin: 20px 0 0 -90px;
     }
     .page-header {
         margin: 10px 0;
@@ -79,8 +79,14 @@
                 </el-table-column>
                 <el-table-column
                     label="图片回源地址"
-                    prop="picUrl"
+                    prop="imageUrl"
                     min-width="200"
+                    show-overflow-tooltip>
+                </el-table-column>
+                <el-table-column
+                    label="图片描述文案"
+                    prop="imageUrl"
+                    min-width="120"
                     show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
@@ -92,7 +98,7 @@
                 <el-table-column
                     label="创建时间"
                     prop="createTime"
-                    min-width="150"
+                    min-width="120"
                     show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column

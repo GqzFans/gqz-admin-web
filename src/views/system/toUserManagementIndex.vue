@@ -10,7 +10,7 @@
         padding: 8px 16px 24px;
     }
     .page-addbtn-panel {
-        margin-top: 15px;
+        margin-top: 15px !important;
         padding-bottom: 8px;
     }
     .page-header {

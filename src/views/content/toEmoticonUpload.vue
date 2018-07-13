@@ -21,7 +21,7 @@
         width: 500px !important;
     }
     .margin-top-10 .el-form-item label {
-        margin-left: -15px;
+        margin-left: -60px;
     }
 </style>
 <template>
@@ -41,7 +41,7 @@
         </el-alert>
         <el-form :inline="true" :model="addModel" ref="addModel" label-width="100px">
             <div class="margin-top-10">
-                <el-form-item label="表情包说明" prop="contentInfo">
+                <el-form-item label="表情包文案" prop="contentInfo">
                     <el-input v-model="addModel.contentInfo" class="input-col-500"></el-input>
                 </el-form-item>
                 <el-alert
