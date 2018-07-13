@@ -47,7 +47,9 @@ import {
     MessageBox,
     Message,
     Notification,
-    Tag
+    Tag,
+    Radio,
+    RadioGroup
 } from 'element-ui';
 const components = [
     Header,
@@ -84,7 +86,9 @@ const components = [
     MessageBox,
     Message,
     Notification,
-    Tag
+    Tag,
+    Radio,
+    RadioGroup
 ];
 
 Vue.prototype.$msgbox = MessageBox;

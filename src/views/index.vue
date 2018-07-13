@@ -5,7 +5,7 @@
     }
     html, body, .warp {
         height: 100%;
-        overflow-y: hidden;
+        // overflow-y: hidden;
     }
     body>div:first-child {
         height: 100%;
