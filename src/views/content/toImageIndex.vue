@@ -14,7 +14,7 @@
         padding-bottom: 8px;
     }
     .form-cls {
-        margin: 20px 0 0 -90px;
+        margin: 20px 0 0 -90px !important;
     }
     .page-header {
         margin: 10px 0;
