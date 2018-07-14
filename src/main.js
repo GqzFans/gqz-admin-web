@@ -7,6 +7,7 @@ import routes from './router';
 import axios from 'axios';
 import MyToken from 'src/utils/MyToken';
 import EncryptUtil from 'src/utils/EncryptUtil';
+import DateUtils from './utils/dateUtils';
 // 调用登出方法
 import LogOut from 'src/utils/LogOut';
 // UI
@@ -100,6 +101,8 @@ Vue.prototype.$notify = Notification;
 Vue.prototype.$message = Message;
 // 加密方式
 Vue.prototype.$encrypto = new EncryptUtil();
+// 时间转换工具
+Vue.prototype.$dateUtils = new DateUtils();
 
 components.map(component => {
     Vue.component(component.name, component);

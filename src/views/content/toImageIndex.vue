@@ -44,10 +44,10 @@
                 <el-form-item label="创建人" prop="createUserName">
                     <el-input class="input-104" v-model="filterModel.createUserName" placeholder="创建人名称"></el-input>
                 </el-form-item>
-                <el-form-item label="创建时间" prop="createTime">
+                <el-form-item label="创建时间" prop="dateRange">
                     <el-date-picker
-                        v-model="filterModel.createTime"
                         type="datetimerange"
+                        v-model.trim="dateRange"
                         :picker-options="pickerOptions"
                         range-separator="至"
                         start-placeholder="开始日期"
@@ -56,7 +56,7 @@
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item label="" class="xe-btn-group">
-                    <el-button type="primary" @click="filterForm('filterModel')">筛选</el-button>
+                    <el-button type="primary" @click="filterForm()">筛选</el-button>
                     <el-button @click="resetForm('filterModel')">重置</el-button>
                 </el-form-item>
             </div>
@@ -83,13 +83,16 @@
                 <el-table-column
                     label="图片回源地址"
                     prop="imageUrl"
-                    min-width="200"
+                    min-width="300"
                     show-overflow-tooltip>
+                    <template slot-scope="scope">
+                        <a :href="scope.row.imageUrl" target="_blank">{{scope.row.imageUrl}}</a>
+                    </template>
                 </el-table-column>
                 <el-table-column
                     label="图片描述文案"
-                    prop="imageUrl"
-                    min-width="120"
+                    prop="imageDescription"
+                    min-width="80"
                     show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
@@ -101,7 +104,7 @@
                 <el-table-column
                     label="创建时间"
                     prop="createTime"
-                    min-width="120"
+                    min-width="80"
                     show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
@@ -163,17 +166,21 @@
                         }
                     }]
                 },
+                dateRange: [],
                 filterModel: {
-                    createTime: '',
+                    beginDate: '',
+                    endDate: '',
                     createUserName: ''
                 },
                 tableData: [],
                 currPage: 1,
+                pageNum: 1,
                 pageSize: 10,
                 total: 0
             };
         },
         created() {
+            this.requestTableData(this.pageNum, this.filterModel);
         },
         activated() {
         },
@@ -194,14 +201,40 @@
                 this.currPage = page;
                 this.requestTableData(this.currPage, this.filterModel);
             },
-            filterForm(formName) {
+            filterForm() {
                 this.requestTableData(this.currPage, this.filterModel);
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();
+                this.dateRange = [];
                 this.requestTableData(this.currPage, this.filterModel);
             },
             requestTableData(postNum, postData) {
+                let _this = this;
+                postData.beginDate = _this.$dateUtils.format(_this.dateRange[0], 'yyyy-MM-dd HH:mm:ss');
+                postData.endDate = _this.$dateUtils.format(_this.dateRange[1], 'yyyy-MM-dd HH:mm:ss');
+                let data = {
+                    pageNum: postNum,
+                    pageSize: _this.pageSize,
+                    param: postData
+                };
+                _this.$http({
+                    method: 'POST',
+                    url: '/api/gqz/content/image/queryGqzImageList',
+                    data: data
+                }).then((res) => {
+                    if (res.code === 200) {
+                        _this.tableData = res.result.list;
+                        _this.total = res.result.total;
+                    } else {
+                        _this.$alert(res.message, '错误', {
+                            confirmButtonText: '确定',
+                            type: 'error',
+                        });
+                    }
+                }).catch((error) => {
+                    console.log(error);
+                });
             },
             dropThis(row) {
             },
