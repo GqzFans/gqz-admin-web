@@ -41,8 +41,8 @@
         </el-alert>
         <el-form :inline="true" :model="addModel" ref="addModel" label-width="100px">
             <div class="margin-top-10">
-                <el-form-item label="图片文案" prop="contentInfo">
-                    <el-input v-model="addModel.contentInfo" class="input-col-500"></el-input>
+                <el-form-item label="图片文案" prop="imageDescription">
+                    <el-input v-model.trim="addModel.imageDescription" class="input-col-500"></el-input>
                 </el-form-item>
                 <el-alert
                     style="margin-bottom: 10px; display: inline-block;"
@@ -54,7 +54,10 @@
                     :action="actionUrl"
                     list-type="picture-card"
                     :on-preview="handlePictureCardPreview"
-                    :on-remove="handleRemove">
+                    :on-remove="handleRemove"
+                    :on-error="checkError"
+                    :on-success="checkSuccess"
+                    :before-upload="beforeAvatarUpload">
                     <i class="el-icon-plus"></i>
                 </el-upload>
                 <el-dialog :visible.sync="dialogVisible">
@@ -64,7 +67,7 @@
             <div class="page-header"></div>
             <div class="margin-top-10">
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('addModel')">保存</el-button>
+                    <el-button type="primary" @click="submitForm()">保存</el-button>
                     <el-button @click="backBtnClick()" style="margin-left: 2px;">返回</el-button>
                 </el-form-item>
             </div>
@@ -79,10 +82,11 @@
                 dialogImageUrl: '',
                 dialogVisible: false,
                 addModel: {
-                    contentInfo: '高秋梓资源站'
+                    imageDescription: '高秋梓资源站',
+                    imageList: []
                 },
                 token: {Authorization: 'Bearer ' + MyCookies.getNowCookie().token},
-                actionUrl: '/api/common/file/uploadImage'
+                actionUrl: '/api/gqz/common/file/uploadImage'
             };
         },
         created() {
@@ -93,13 +97,79 @@
         },
         methods: {
             handleRemove(file, fileList) {
-                console.log(file, fileList);
+                let _this = this;
+                let tempItem = '';
+                _this.addModel.imageList = [];
+                fileList.forEach((item) => {
+                    tempItem = item.response.result[0];
+                    _this.addModel.imageList.push(tempItem);
+                });
+                console.log('handleRemove imageList = ', _this.addModel.imageList);
             },
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
             },
-            submitForm(formName) {
+            checkError (err, file, fileList) { // 图片上传-出错
+                console.log(err, file, fileList);
+            },
+            checkSuccess (response, file, fileList) { // 图片上传-成功
+                let _this = this;
+                let tempItem = '';
+                _this.addModel.imageList = [];
+                fileList.forEach((item) => {
+                    if (item.response !== null && item.response !== '' && item.response !== undefined) {
+                        tempItem = item.response.result[0];
+                        _this.addModel.imageList.push(tempItem);
+                    }
+                });
+                console.log('success imageList = ', _this.addModel.imageList);
+            },
+            beforeAvatarUpload(file) { // 左面图片上传-校验
+                const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif';
+                const isLt10M = file.size / 1024 / 1024 < 10;
+                if (!isJPG) {
+                    this.$alert('上传图片只能是 JPG、png、GIF 格式!', '错误', {
+                        confirmButtonText: '确定',
+                        type: 'error'
+                    });
+                }
+                if (!isLt10M) {
+                    this.$alert('上传图片大小不能超过 10MB!', '错误', {
+                        confirmButtonText: '确定',
+                        type: 'error'
+                    });
+                }
+                return isJPG && isLt10M;
+            },
+            submitForm() {
+                let _this = this;
+                if (_this.addModel.imageDescription === undefined || _this.addModel.imageDescription === '') {
+                    _this.$message.error('请完善图片文案');
+                    return;
+                }
+                let data = _this.addModel;
+                // console.log('submitForm -> ', data);
+                _this.$http({
+                    method: 'post',
+                    url: '/api/gqz/content/image/addGqzImage',
+                    data: data
+                }).then(res => {
+                    if (res.code === 200 && res.result) {
+                        _this.$message({
+                            type: 'success',
+                            message: '保存成功'
+                        });
+                        _this.$router.push({ name: 'contentImage' });
+                    } else {
+                        _this.$alert(res.message, '错误', {
+                            confirmButtonText: '确定',
+                            type: 'error',
+                        });
+                    }
+                }).catch(error => {
+                    console.log(error);
+                });
             },
             backBtnClick() {
                 this.$router.go(-1);

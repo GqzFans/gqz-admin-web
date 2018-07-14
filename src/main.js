@@ -132,12 +132,13 @@ Vue.prototype.$http.interceptors.request.use((config) => {
 
 // code状态码200判断
 Vue.prototype.$http.interceptors.response.use((res) => {
-    // TODO 续租
     if (res.data.code !== 200) {
+        console.log('response error -> ', res.data);
         if (res.data.code === 100009 || res.data.code === 100010 || res.data.code === 100006 || res.data.code === 403) {
             // TOKEN解析失败 || 操作频率过快, 您的帐号已被冻结 || 会话超时,请刷新页面重试 || jwt验签失败,DTO为空
             Message.error(res.data.message);
             LogOut();
+            this.$router.push({name: 'login'});
             // window.location.href = '';
             return Promise.reject(res);
         } else {

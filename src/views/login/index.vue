@@ -44,7 +44,7 @@
     .ipt-cls-name {
         display: inline-block;
         width: 110%;
-        margin: 140px 0 0 50px;
+        margin: 155px 0 0 50px;
     }
     .ipt-cls-pwd {
         display: inline-block;

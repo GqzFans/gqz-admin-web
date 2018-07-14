@@ -27,6 +27,9 @@
         padding-bottom: 10px;
         text-align: right;
     }
+    .el-form-item label {
+        margin-left: 50px !important;
+    }
 </style>
 <template>
     <div class="page-content">
