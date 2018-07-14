@@ -180,7 +180,6 @@
                 if (registerParam.systemId === 0) {
                     registerParam.systemId = 'gqz-zyz';
                 }
-                console.log('registerParam = ', registerParam);
                 this.$http({
                     method: 'post',
                     url: '/api/uac/auth/register/register',
