@@ -202,7 +202,6 @@
                 }
             },
             handleCurrentChange(page) {
-                console.log(page, 'page');
                 this.currPage = page;
                 this.requestTableData(this.currPage, this.filterModel);
             },
@@ -358,6 +357,5 @@
                 });
             }
         }
-
     };
 </script>
