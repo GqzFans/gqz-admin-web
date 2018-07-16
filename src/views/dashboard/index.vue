@@ -64,15 +64,15 @@
                   </div>
                   <div class="left-data-div">
                       <span>图片数量：</span>
-                      <i class="count">56</i>
-                  </div>
-                  <div class="left-data-div">
-                      <span>视频数量：</span>
-                      <i class="count">13</i>
+                      <i class="count">{{dataStatistics.gqzImageCount}}</i>
                   </div>
                   <div class="left-data-div">
                       <span>表情包数量：</span>
-                      <i class="count">56</i>
+                      <i class="count">{{dataStatistics.gqzEmoticonCount}}</i>
+                  </div>
+                  <div class="left-data-div">
+                      <span>视频数量：</span>
+                      <i class="count">{{dataStatistics.gqzVideoCount}}</i>
                   </div>
               </el-card>
               <el-card class="box-card-left">
@@ -81,15 +81,15 @@
                   </div>
                   <div style="margin-top: -9px;">
                       <span>图片上传占比：</span>
-                      <el-progress :text-inside="true" :stroke-width="18" :percentage="80" color="#67C23A" class="stroke-style"></el-progress>
-                  </div>
-                  <div style="margin-top: 10px;">
-                      <span>视频上传占比：</span>
-                      <el-progress :text-inside="true" :stroke-width="18" :percentage="30" color="rgba(142, 113, 199, 0.7)" class="stroke-style"></el-progress>
+                      <el-progress :text-inside="true" :stroke-width="18" :percentage="dataStatistics.uploadImageMonthPercentage * 100" color="#67C23A" class="stroke-style"></el-progress>
                   </div>
                   <div style="margin-top: 10px;">
                       <span>表情包上传占比：</span>
-                      <el-progress :text-inside="true" :stroke-width="18" :percentage="57.3" color="rgb(32, 160, 255)" class="stroke-style"></el-progress>
+                      <el-progress :text-inside="true" :stroke-width="18" :percentage="dataStatistics.uploadEmoticonMonthPercentage * 100" color="rgb(32, 160, 255)" class="stroke-style"></el-progress>
+                  </div>
+                  <div style="margin-top: 10px;">
+                      <span>视频上传占比：</span>
+                      <el-progress :text-inside="true" :stroke-width="18" :percentage="dataStatistics.uploadVideoMonthPercentage * 100" color="rgba(142, 113, 199, 0.7)" class="stroke-style"></el-progress>
                   </div>
               </el-card>
           </el-col>
@@ -103,30 +103,36 @@
                           :data="userTableData"
                           style="width: 100%">
                           <el-table-column
-                              prop="date"
+                              prop="loginTime"
+                              min-width="110"
                               label="日期">
+                              <template slot-scope="scope">
+                                  {{scope.row.loginTime | timeFormat}}
+                              </template>
                           </el-table-column>
                           <el-table-column
-                              prop="userName"
+                              prop="loginName"
+                              min-width="160"
                               label="用户ID">
                           </el-table-column>
                           <el-table-column
                               prop="loginIp"
+                              min-width="100"
                               label="登录IP">
                           </el-table-column>
                       </el-table>
                   </div>
               </el-card>
-              <el-card class="box-card-right">
+              <el-card class="box-card-right" style="margin-top: 15px;">
                   <span style="margin-bottom: 10px; display: inline-block;">近期上线功能</span>
                   <el-collapse v-model="activeNames">
-                      <el-collapse-item title="2018.07.06 14:54:23" name="1">
-                          <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
-                          <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
+                      <el-collapse-item :title="versionInfo_0.versionName" name="1">
+                          <div>{{versionInfo_0.versionTime}}</div>
+                          <div>{{versionInfo_0.versionDescription}}</div>
                       </el-collapse-item>
-                      <el-collapse-item title="反馈 Feedback" name="2">
-                          <div>控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；</div>
-                          <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
+                      <el-collapse-item :title="versionInfo_1.versionName" name="2">
+                          <div>{{versionInfo_1.versionTime}}</div>
+                          <div>{{versionInfo_1.versionDescription}}</div>
                       </el-collapse-item>
                   </el-collapse>
               </el-card>
@@ -143,19 +149,95 @@ export default {
                 { imgUrl: require('../../assets/admin-banner/banner-2.jpg'), title: 'banner_2' },
                 { imgUrl: require('../../assets/admin-banner/banner-3.jpg'), title: 'banner_3' }
             ],
-            activeNames: ['1'],
-            userTableData: [
-                { date: '2018.07.06 14:54:23', userName: 'dragon' },
-                { date: '2018.07.06 14:54:23', userName: 'dragon' },
-                { date: '2018.07.06 14:54:23', userName: 'dragon' },
-                { date: '2018.07.06 14:54:23', userName: 'dragon' },
-                { date: '2018.07.06 14:54:23', userName: 'dragon' }
-            ]
+            activeNames: ['1', '2'],
+            userTableData: [],
+            dataStatistics: {
+                gqzImageCount: '',
+                gqzEmoticonCount: '',
+                gqzVideoCount: '',
+                uploadImageMonthPercentage: '',
+                uploadEmoticonMonthPercentage: '',
+                uploadVideoMonthPercentage: ''
+            },
+            versionInfo_0: {
+                versionName: '',
+                versionTime: '',
+                versionDescription: ''
+            },
+            versionInfo_1: {
+                versionName: '',
+                versionTime: '',
+                versionDescription: ''
+            }
         };
     },
     created() {
+        this.getRecentUserLog();
+        this.getDataStatistics();
+        this.getVersionInfo();
+    },
+    filters: {
+        timeFormat(val) {
+            return val.substring(0, 19);
+        }
     },
     methods: {
+        getRecentUserLog() {
+            let _this = this;
+            _this.$http({
+                method: 'POST',
+                url: '/api/gqz/dashboard/getRecentUserLog'
+            }).then((res) => {
+                if (res.code === 200) {
+                    _this.userTableData = res.result;
+                } else {
+                    _this.$alert(res.message, '错误', {
+                        confirmButtonText: '确定',
+                        type: 'error',
+                    });
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
+        },
+        getDataStatistics() {
+            let _this = this;
+            _this.$http({
+                method: 'POST',
+                url: '/api/gqz/dashboard/getDataStatistics'
+            }).then((res) => {
+                if (res.code === 200) {
+                    _this.dataStatistics = res.result;
+                } else {
+                    _this.$alert(res.message, '错误', {
+                        confirmButtonText: '确定',
+                        type: 'error',
+                    });
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
+        },
+        getVersionInfo() {
+            let _this = this;
+            _this.$http({
+                method: 'GET',
+                url: '/api/gqz/dashboard/getVersionInfo'
+            }).then((res) => {
+                if (res.code === 200) {
+                    _this.versionInfoList = res.result;
+                    _this.versionInfo_0 = _this.versionInfoList[0];
+                    _this.versionInfo_1 = _this.versionInfoList[1];
+                } else {
+                    _this.$alert(res.message, '错误', {
+                        confirmButtonText: '确定',
+                        type: 'error',
+                    });
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
+        }
     }
 };
 </script>

@@ -123,7 +123,7 @@ Vue.prototype.$http = axios.create({
 
 // POST传参序列化
 Vue.prototype.$http.interceptors.request.use((config) => {
-    if (config.method === 'POST' || config.method === 'post') {
+    if (config.method === 'POST' || config.method === 'post' || config.method === 'GET' || config.method === 'get') {
         let token = MyToken.get();
         token && (config.headers.Authorization = token);
         return config;
