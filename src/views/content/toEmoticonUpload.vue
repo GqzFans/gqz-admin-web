@@ -21,7 +21,7 @@
         width: 500px !important;
     }
     .margin-top-10 .el-form-item label {
-        margin-left: -60px;
+        margin-left: -18px !important;
     }
 </style>
 <template>
@@ -41,8 +41,8 @@
         </el-alert>
         <el-form :inline="true" :model="addModel" ref="addModel" label-width="100px">
             <div class="margin-top-10">
-                <el-form-item label="表情包文案" prop="contentInfo">
-                    <el-input v-model="addModel.contentInfo" class="input-col-500"></el-input>
+                <el-form-item label="表情包文案" prop="emoticonDescription">
+                    <el-input v-model.trim="addModel.emoticonDescription" class="input-col-500"></el-input>
                 </el-form-item>
                 <el-alert
                     style="margin-bottom: 10px; display: inline-block;"
@@ -50,14 +50,14 @@
                     type="info"
                     :closable="false">
                 </el-alert>
-                <el-upload name="img_1" id="img_1" class="img_1"
-                    action="https://jsonplaceholder.typicode.com/posts/"
-                    list-type="picture-card"
-                    :on-preview="handlePictureCardPreview"
-                    :on-remove="handleRemove"
-                    :on-success="checkSuccess"
-                    :on-error="checkError"
-                    :before-upload="beforeAvatarUpload">
+                <el-upload :headers="token" class="img_1" name="image"
+                           :action="actionUrl"
+                           list-type="picture-card"
+                           :on-preview="handlePictureCardPreview"
+                           :on-remove="handleRemove"
+                           :on-error="checkError"
+                           :on-success="checkSuccess"
+                           :before-upload="beforeAvatarUpload">
                     <i class="el-icon-plus"></i>
                 </el-upload>
                 <el-dialog :visible.sync="dialogVisible">
@@ -67,7 +67,7 @@
             <div class="page-header"></div>
             <div class="margin-top-10">
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm('addModel')">保存</el-button>
+                    <el-button type="primary" @click="submitForm()">保存</el-button>
                     <el-button @click="backBtnClick()" style="margin-left: 2px;">返回</el-button>
                 </el-form-item>
             </div>
@@ -75,37 +75,64 @@
     </div>
 </template>
 <script>
+    import MyCookies from '../../utils/MyCookies';
     export default {
         data() {
             return {
+                checkUpload: 0,
+                checkDisabled: false,
                 dialogImageUrl: '',
                 dialogVisible: false,
                 addModel: {
-                    contentInfo: '',
-                    imgSerialNo: '',
-                    img: '',
-                    imgName: ''
+                    emoticonDescription: '',
+                    imageList: []
                 },
-                checkUpload: 0,
-                checkDisabled: false,
-                picerr: false
+                token: {Authorization: 'Bearer ' + MyCookies.getNowCookie().token},
+                actionUrl: '/api/gqz/common/file/uploadEmoticon'
             };
         },
-        created() {
-        },
-        activated() {
-        },
-        filter: {
-        },
         methods: {
+            submitForm() {
+                let _this = this;
+                if (_this.addModel.emoticonDescription === undefined || _this.addModel.emoticonDescription === '') {
+                    _this.$message.error('请完善表情包文案');
+                    return;
+                }
+                let data = _this.addModel;
+                // console.log('submitForm -> ', data);
+                _this.$http({
+                    method: 'post',
+                    url: '/api/gqz/content/emoticon/addGqzEmoticon',
+                    data: data
+                }).then(res => {
+                    if (res.code === 200 && res.result) {
+                        _this.$message({
+                            type: 'success',
+                            message: '保存成功'
+                        });
+                        _this.$router.push({ name: 'contentEmoticon' });
+                    } else {
+                        _this.$alert(res.message, '错误', {
+                            confirmButtonText: '确定',
+                            type: 'error',
+                        });
+                    }
+                }).catch(error => {
+                    console.log(error);
+                });
+            },
+            backBtnClick() {
+                this.$router.go(-1);
+            },
             handleRemove(file, fileList) {
-                console.log('remove file = ', file);
-                console.log('fileList = ', fileList);
+                let _this = this;
                 if (!this.picerr) {
-                    let _this = this;
-                    _this.addModel.imgSerialNo = '';
-                    _this.addModel.img = '';
-                    _this.addModel.imgName = '';
+                    let tempItem = '';
+                    _this.addModel.imageList = [];
+                    fileList.forEach((item) => {
+                        tempItem = item.response.result[0];
+                        _this.addModel.imageList.push(tempItem);
+                    });
                     // 重新计数
                     _this.checkUpload--;
                     _this.checkDisabled = false;
@@ -116,16 +143,15 @@
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
             },
-            submitForm(formName) {
-            },
-            backBtnClick() {
-                this.$router.go(-1);
-            },
             checkSuccess (response, file, fileList) { // 图片上传-成功
                 let _this = this;
-                _this.vouchers = [];
+                let tempItem = '';
+                _this.addModel.imageList = [];
                 fileList.forEach((item) => {
-                    _this.addModel.imgSerialNo = item.response.result;
+                    if (item.response !== null && item.response !== '' && item.response !== undefined) {
+                        tempItem = item.response.result[0];
+                        _this.addModel.imageList.push(tempItem);
+                    }
                 });
             },
             checkError (err, file, fileList) { // 图片上传-出错
@@ -138,7 +164,7 @@
             },
             beforeAvatarUpload(file) { // 左面图片上传-校验
                 const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif';
-                const isLt2M = file.size / 1024 / 1024 < 5;
+                const isLt5M = file.size / 1024 / 1024 < 5;
                 if (!isJPG) {
                     this.$alert('上传图片只能是 JPG、png、GIF 格式!', '错误', {
                         confirmButtonText: '确定',
@@ -146,14 +172,14 @@
                     });
                     this.picerr = true;
                 }
-                if (!isLt2M) {
+                if (!isLt5M) {
                     this.$alert('上传图片大小不能超过 5MB!', '错误', {
                         confirmButtonText: '确定',
                         type: 'error'
                     });
                     this.picerr = true;
                 }
-                if (isJPG && isLt2M) {
+                if (isJPG && isLt5M) {
                     if (this.checkUpload >= 1) {
                         this.$message.error('最多上传一张图片');
                         return false;
@@ -165,9 +191,8 @@
                         }
                     }
                 }
-                return isJPG && isLt2M;
+                return isJPG && isLt5M;
             }
         }
-
     };
 </script>
