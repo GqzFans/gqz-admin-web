@@ -89,12 +89,6 @@
                 actionUrl: '/api/gqz/common/file/uploadImage'
             };
         },
-        created() {
-        },
-        activated() {
-        },
-        filter: {
-        },
         methods: {
             handleRemove(file, fileList) {
                 let _this = this;
@@ -125,7 +119,7 @@
                 });
                 console.log('success imageList = ', _this.addModel.imageList);
             },
-            beforeAvatarUpload(file) { // 左面图片上传-校验
+            beforeAvatarUpload(file) { // 图片上传-校验
                 const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/gif';
                 const isLt10M = file.size / 1024 / 1024 < 10;
                 if (!isJPG) {

@@ -10,14 +10,13 @@
         padding: 8px 16px 24px;
     }
     .page-addbtn-panel {
-        margin-top: -3px;
-        padding-bottom: 8px;
+        margin-top: 8px;
+        padding-bottom: 10px;
     }
     .form-cls {
         margin: 20px 0 0 -90px !important;
     }
     .page-header {
-        margin: 10px 0;
         padding-bottom: 10px;
         border-bottom: 1px solid #c2c2c2;
     }
@@ -29,6 +28,9 @@
     }
     .el-form-item label {
         margin-left: 50px !important;
+    }
+    a:link, a:visited {
+        text-decoration: none;
     }
 </style>
 <template>
@@ -112,10 +114,13 @@
                     fixed="right"
                     width="120">
                     <template slot-scope="scope">
-                        <el-button class="xe-textBtn" type="text" size="small" @click="dropThis(scope.row)">
+                        <el-button v-if="scope.row.imageStatus === '1'" style="color: #E6A23C;" type="text" size="small" @click="dropThis(scope.row)">
                             下架
                         </el-button>
-                        <el-button class="red" type="text" size="small" @click="deleteThis(scope.row)">
+                        <el-button v-if="scope.row.imageStatus === '2'" style="color: #67C23A;" type="text" size="small" @click="upThis(scope.row)">
+                            上架
+                        </el-button>
+                        <el-button style="color: red;" type="text" size="small" @click="deleteThis(scope.row)">
                             删除
                         </el-button>
                     </template>
@@ -197,7 +202,6 @@
                 }
             },
             handleCurrentChange(page) {
-                console.log(page, 'page');
                 this.currPage = page;
                 this.requestTableData(this.currPage, this.filterModel);
             },
@@ -237,10 +241,121 @@
                 });
             },
             dropThis(row) {
+                let _this = this;
+                let data = {
+                    id: row.id,
+                    version: row.version,
+                    model: 'drop'
+                };
+                _this.$confirm('此操作将下架该图片，并无法展示, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    _this.$http({
+                        method: 'POST',
+                        url: '/api/gqz/content/image/operateImageById',
+                        data: data
+                    }).then((res) => {
+                        if (res.code === 200 && res.result) {
+                            _this.$message({
+                                type: 'success',
+                                message: '操作成功'
+                            });
+                            _this.requestTableData(this.pageNum, this.filterModel);
+                        } else {
+                            _this.$alert(res.message, '错误', {
+                                confirmButtonText: '确定',
+                                type: 'error',
+                            });
+                        }
+                    }).catch((error) => {
+                        console.log(error);
+                    });
+                }).catch(() => {
+                    _this.$message({
+                        type: 'info',
+                        message: '已取消相关操作'
+                    });
+                });
+            },
+            upThis(row) {
+                let _this = this;
+                let data = {
+                    id: row.id,
+                    version: row.version,
+                    model: 'up'
+                };
+                _this.$confirm('确认上架该图片?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    _this.$http({
+                        method: 'POST',
+                        url: '/api/gqz/content/image/operateImageById',
+                        data: data
+                    }).then((res) => {
+                        if (res.code === 200 && res.result) {
+                            _this.$message({
+                                type: 'success',
+                                message: '操作成功'
+                            });
+                            _this.requestTableData(this.pageNum, this.filterModel);
+                        } else {
+                            _this.$alert(res.message, '错误', {
+                                confirmButtonText: '确定',
+                                type: 'error',
+                            });
+                        }
+                    }).catch((error) => {
+                        console.log(error);
+                    });
+                }).catch(() => {
+                    _this.$message({
+                        type: 'info',
+                        message: '已取消相关操作'
+                    });
+                });
             },
             deleteThis(row) {
+                let _this = this;
+                let data = {
+                    id: row.id,
+                    version: row.version
+                };
+                _this.$confirm('此操作将永久删除该图片，并无法展示, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    _this.$http({
+                        method: 'POST',
+                        url: '/api/gqz/content/image/deleteImageById',
+                        data: data
+                    }).then((res) => {
+                        if (res.code === 200 && res.result) {
+                            _this.$message({
+                                type: 'success',
+                                message: '操作成功'
+                            });
+                            _this.requestTableData(this.pageNum, this.filterModel);
+                        } else {
+                            _this.$alert(res.message, '错误', {
+                                confirmButtonText: '确定',
+                                type: 'error',
+                            });
+                        }
+                    }).catch((error) => {
+                        console.log(error);
+                    });
+                }).catch(() => {
+                    _this.$message({
+                        type: 'info',
+                        message: '已取消相关操作'
+                    });
+                });
             }
         }
-
     };
 </script>
