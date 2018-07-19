@@ -1,7 +1,7 @@
 import Cookie from 'js-cookie';
 import TokenInfoKeys from './MyTokenInfoKeys';
 export default {
-    domainUrl: '.dragon-yuan.me',
+    domainUrl: '.gaoqiuzi.cn',
     tokenInfoKeys: TokenInfoKeys.getEnv(),
     set(key, val) {
         if (this.tokenInfoKeys.dev) {
