@@ -4,7 +4,7 @@ import Cookie from 'js-cookie';
 import TokenInfoKeys from './MyTokenInfoKeys';
 import LogOut from './LogOut';
 export default {
-    domainUrl: '.dragon-yuan.me',
+    domainUrl: '.gaoqiuzi.cn',
     tokenInfoKeys: TokenInfoKeys.getEnv(),
     isOut: false,
     set (val) {
