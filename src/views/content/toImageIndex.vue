@@ -1,4 +1,4 @@
-<style>
+<style rel="stylesheet/scss" lang="scss" scoped>
     /*面包屑导航样式*/
     .breadcrumb-con {
         margin-top:0;
@@ -14,10 +14,10 @@
         padding-bottom: 10px;
     }
     .form-cls {
-        margin: 20px 0 0 -90px !important;
+        margin: 15px 0 0 -40px;
     }
     .page-header {
-        padding-bottom: 10px;
+        margin-top: -10px;
         border-bottom: 1px solid #c2c2c2;
     }
     /*分页*/
@@ -32,6 +32,9 @@
     a:link, a:visited {
         text-decoration: none;
     }
+    .el-form-box {
+        min-width: 1150px;
+    }
 </style>
 <template>
     <div class="page-content">
@@ -42,7 +45,7 @@
             </el-breadcrumb>
         </div>
         <el-form :inline="true" :model="filterModel" ref="filterModel" label-width="100px" class="form-cls">
-            <div>
+            <div class="el-form-box">
                 <el-form-item label="创建人" prop="createUserName">
                     <el-input class="input-104" v-model="filterModel.createUserName" placeholder="创建人名称"></el-input>
                 </el-form-item>
@@ -224,7 +227,7 @@
                 };
                 _this.$http({
                     method: 'POST',
-                    url: '/api/gqz/content/image/queryGqzImageList',
+                    url: _this.$api.getHomeProjectLink() + '/api/gqz/content/image/queryGqzImageList',
                     data: data
                 }).then((res) => {
                     if (res.code === 200) {
@@ -254,7 +257,7 @@
                 }).then(() => {
                     _this.$http({
                         method: 'POST',
-                        url: '/api/gqz/content/image/operateImageById',
+                        url: _this.$api.getHomeProjectLink() + '/api/gqz/content/image/operateImageById',
                         data: data
                     }).then((res) => {
                         if (res.code === 200 && res.result) {
@@ -293,7 +296,7 @@
                 }).then(() => {
                     _this.$http({
                         method: 'POST',
-                        url: '/api/gqz/content/image/operateImageById',
+                        url: _this.$api.getHomeProjectLink() + '/api/gqz/content/image/operateImageById',
                         data: data
                     }).then((res) => {
                         if (res.code === 200 && res.result) {
@@ -331,7 +334,7 @@
                 }).then(() => {
                     _this.$http({
                         method: 'POST',
-                        url: '/api/gqz/content/image/deleteImageById',
+                        url: _this.$api.getHomeProjectLink() + '/api/gqz/content/image/deleteImageById',
                         data: data
                     }).then((res) => {
                         if (res.code === 200 && res.result) {

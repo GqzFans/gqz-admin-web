@@ -7,11 +7,13 @@ import routes from './router';
 import axios from 'axios';
 import MyToken from 'src/utils/MyToken';
 import EncryptUtil from 'src/utils/EncryptUtil';
-import DateUtils from './utils/dateUtils';
+import DateUtils from './utils/DateUtils';
+import HttpConfig from './utils/HttpConfig';
 // 调用登出方法
 import LogOut from 'src/utils/LogOut';
 // UI
 import 'element-ui/lib/theme-chalk/index.css';
+import './assets/style/rules.scss';
 // 按需引入组件
 import {
     Header,
@@ -103,6 +105,8 @@ Vue.prototype.$message = Message;
 Vue.prototype.$encrypto = new EncryptUtil();
 // 时间转换工具
 Vue.prototype.$dateUtils = new DateUtils();
+// 获取API地址
+Vue.prototype.$api = new HttpConfig();
 
 components.map(component => {
     Vue.component(component.name, component);
@@ -123,7 +127,9 @@ Vue.prototype.$http = axios.create({
 
 // POST传参序列化
 Vue.prototype.$http.interceptors.request.use((config) => {
-    if (config.method === 'POST' || config.method === 'post' || config.method === 'GET' || config.method === 'get') {
+    if (config.method === 'POST' || config.method === 'post' ||
+        config.method === 'GET' || config.method === 'get' ||
+        config.method === 'OPTIONS' || config.method === 'options') {
         let token = MyToken.get();
         token && (config.headers.Authorization = token);
         return config;
@@ -136,12 +142,11 @@ Vue.prototype.$http.interceptors.request.use((config) => {
 // code状态码200判断
 Vue.prototype.$http.interceptors.response.use((res) => {
     if (res.data.code !== 200) {
-        console.log('response error -> ', res.data);
-        if (res.data.code === 100009 || res.data.code === 100010 || res.data.code === 100006 || res.data.code === 403) {
+        if (res.data.code === 10009 || res.data.code === 10010 || res.data.code === 10011 || res.data.code === 403) {
             // TOKEN解析失败 || 操作频率过快, 您的帐号已被冻结 || 会话超时,请刷新页面重试 || jwt验签失败,DTO为空
             Message.error(res.data.message);
-            LogOut();
-            this.$router.push({name: 'login'});
+            LogOut(false, false);
+            // this.$router.push({name: 'login'});
             // window.location.href = '';
             return Promise.reject(res);
         } else {

@@ -2,6 +2,7 @@ import Vue from 'vue';
 import MyCookies from './MyCookies';
 import MyToken from './MyToken';
 export default function LogOut(Invalid, isRequest = true) {
+    console.log('error logout ! ' + 'invalid = ', Invalid, ' isRequest = ', isRequest);
     if (isRequest) {
         Vue.prototype.$http({
             method: 'post',

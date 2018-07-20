@@ -1,11 +1,6 @@
-<style lang='scss'>
-    * {
-        margin: 0;
-        padding: 0;
-    }
+<style rel="stylesheet/scss" lang="scss" scoped>
     html, body, .warp {
         height: 100%;
-        // overflow-y: hidden;
     }
     body>div:first-child {
         height: 100%;
@@ -27,10 +22,10 @@
     }
     .w-top-title {
         color: azure;
-        font-family: "Adobe Kaiti Std";
-        font-size: 15pt;
+        font-family: "Microsoft YaHei";
+        font-size: 13pt;
         text-shadow: 0 0 0.2em #F87, 0 0 0.2em #F87;
-        margin: 6px 0 0 -5px;
+        margin: 17px 0 0 0;
         display: inline-block;
     }
     .w-top-drop-down {
@@ -68,6 +63,10 @@
                 transition: all .1s ease;
             }
         }
+    }
+    .route-box-style {
+        position: absolute;
+        display: inline-block;
     }
 </style>
 <template>
@@ -118,7 +117,7 @@
                     </el-submenu>
                 </el-menu>
             </el-col>
-            <el-col :span="20">
+            <el-col :span="20" class="route-box-style">
                 <router-view></router-view>
             </el-col>
         </el-row>

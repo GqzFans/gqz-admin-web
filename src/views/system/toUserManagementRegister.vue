@@ -1,4 +1,4 @@
-<style>
+<style rel="stylesheet/scss" lang="scss" scoped>
     /*面包屑导航样式*/
     .breadcrumb-con {
         margin-top:0;
@@ -24,7 +24,7 @@
         margin-left: -10px;
     }
     .el-form-item__label {
-        width: 150px !important;
+        width: 250px !important;
     }
     .el-form-item__error {
         margin: 0;
@@ -39,7 +39,7 @@
                 <el-breadcrumb-item>注册用户</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <el-form :inline="true" :model="addModel" ref="addModel" :rules="registerRules" label-width="100px">
+        <el-form :inline="true" :model="addModel" ref="addModel" :rules="registerRules" label-width="140px">
             <div class="margin-top-20">
                 <div>
                     <el-form-item label="登录名" prop="loginName" required>
@@ -182,7 +182,7 @@
                 }
                 this.$http({
                     method: 'post',
-                    url: '/api/uac/auth/register/register',
+                    url: _this.$api.getHomeProjectLink() + '/api/uac/auth/register/register',
                     data: registerParam
                 }).then(res => {
                     if (res.code === 200) {

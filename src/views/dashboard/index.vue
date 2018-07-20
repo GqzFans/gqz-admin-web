@@ -1,4 +1,4 @@
-<style>
+<style rel="stylesheet/scss" lang="scss" scoped>
     .clearFix:before, .clearFix:after {
         display: table;
         content: "";
@@ -12,7 +12,6 @@
     }
     .box-card-right {
         width: 600px;
-        margin: 20px 0 0 30px;
     }
     .left-data-div {
         margin: -3px 0 5px 0;
@@ -44,100 +43,109 @@
         z-index: -1;
         *zoom: 1;
     }
+    .dashboard-box {
+        min-width: 1150px;
+    }
+    .dashboard-left {
+        max-width: 510px;
+        float: left;
+    }
+    .dashboard-right {
+        float: left;
+        margin: 20px 0 0 40px;
+    }
 </style>
 <template>
-  <div>
-      <el-row :gutter="20">
-          <el-col :span="9">
-              <el-card class="box-card-left">
-                  <div class="block">
-                      <el-carousel height="150px">
-                          <el-carousel-item v-for="item in bannerList" :key="item.title">
-                              <img :src="item.imgUrl" :alt="item.title" class="banner-img"/>
-                          </el-carousel-item>
-                      </el-carousel>
-                  </div>
-              </el-card>
-              <el-card class="box-card-left">
-                  <div slot="header" class="clearFix">
-                      <span>资源站 - 资源数据统计</span>
-                  </div>
-                  <div class="left-data-div">
-                      <span>图片数量：</span>
-                      <i class="count">{{dataStatistics.gqzImageCount}}</i>
-                  </div>
-                  <div class="left-data-div">
-                      <span>表情包数量：</span>
-                      <i class="count">{{dataStatistics.gqzEmoticonCount}}</i>
-                  </div>
-                  <div class="left-data-div">
-                      <span>视频数量：</span>
-                      <i class="count">{{dataStatistics.gqzVideoCount}}</i>
-                  </div>
-              </el-card>
-              <el-card class="box-card-left">
-                  <div slot="header" class="clearFix">
-                      <span>资源站 - 新增资源数据统计（月统计）</span>
-                  </div>
-                  <div style="margin-top: -9px;">
-                      <span>图片上传占比：</span>
-                      <el-progress :text-inside="true" :stroke-width="18" :percentage="dataStatistics.uploadImageMonthPercentage * 100" color="#67C23A" class="stroke-style"></el-progress>
-                  </div>
-                  <div style="margin-top: 10px;">
-                      <span>表情包上传占比：</span>
-                      <el-progress :text-inside="true" :stroke-width="18" :percentage="dataStatistics.uploadEmoticonMonthPercentage * 100" color="rgb(32, 160, 255)" class="stroke-style"></el-progress>
-                  </div>
-                  <div style="margin-top: 10px;">
-                      <span>视频上传占比：</span>
-                      <el-progress :text-inside="true" :stroke-width="18" :percentage="dataStatistics.uploadVideoMonthPercentage * 100" color="rgba(142, 113, 199, 0.7)" class="stroke-style"></el-progress>
-                  </div>
-              </el-card>
-          </el-col>
-          <el-col :span="12">
-              <el-card class="box-card-right">
-                  <div slot="header" class="clearFix">
-                      <span>最近登录的用户</span>
-                  </div>
-                  <div style="margin-top: -15px;">
-                      <el-table
-                          :data="userTableData"
-                          style="width: 100%">
-                          <el-table-column
-                              prop="loginTime"
-                              min-width="110"
-                              label="日期">
-                              <template slot-scope="scope">
-                                  {{scope.row.loginTime | timeFormat}}
-                              </template>
-                          </el-table-column>
-                          <el-table-column
-                              prop="loginName"
-                              min-width="160"
-                              label="用户ID">
-                          </el-table-column>
-                          <el-table-column
-                              prop="loginIp"
-                              min-width="100"
-                              label="登录IP">
-                          </el-table-column>
-                      </el-table>
-                  </div>
-              </el-card>
-              <el-card class="box-card-right" style="margin-top: 15px;">
-                  <span style="margin-bottom: 10px; display: inline-block;">近期上线功能</span>
-                  <el-collapse v-model="activeNames">
-                      <el-collapse-item :title="versionInfo_0.versionName" name="1">
-                          <div>{{versionInfo_0.versionTime}}</div>
-                          <div>{{versionInfo_0.versionDescription}}</div>
-                      </el-collapse-item>
-                      <el-collapse-item :title="versionInfo_1.versionName" name="2">
-                          <div>{{versionInfo_1.versionTime}}</div>
-                          <div>{{versionInfo_1.versionDescription}}</div>
-                      </el-collapse-item>
-                  </el-collapse>
-              </el-card>
-          </el-col>
-      </el-row>
+  <div class="dashboard-box">
+      <div class="dashboard-left">
+          <el-card class="box-card-left">
+              <div class="block">
+                  <el-carousel height="150px">
+                      <el-carousel-item v-for="item in bannerList" :key="item.title">
+                          <img :src="item.imgUrl" :alt="item.title" class="banner-img"/>
+                      </el-carousel-item>
+                  </el-carousel>
+              </div>
+          </el-card>
+          <el-card class="box-card-left">
+              <div slot="header" class="clearFix">
+                  <span>资源站 - 资源数据统计</span>
+              </div>
+              <div class="left-data-div">
+                  <span>图片数量：</span>
+                  <i class="count">{{dataStatistics.gqzImageCount}}</i>
+              </div>
+              <div class="left-data-div">
+                  <span>表情包数量：</span>
+                  <i class="count">{{dataStatistics.gqzEmoticonCount}}</i>
+              </div>
+              <div class="left-data-div">
+                  <span>视频数量：</span>
+                  <i class="count">{{dataStatistics.gqzVideoCount}}</i>
+              </div>
+          </el-card>
+          <el-card class="box-card-left">
+              <div slot="header" class="clearFix">
+                  <span>资源站 - 新增资源数据统计（月统计）</span>
+              </div>
+              <div style="margin-top: -9px;">
+                  <span>图片上传占比：</span>
+                  <el-progress :text-inside="true" :stroke-width="18" :percentage="dataStatistics.uploadImageMonthPercentage * 100" color="#67C23A" class="stroke-style"></el-progress>
+              </div>
+              <div style="margin-top: 10px;">
+                  <span>表情包上传占比：</span>
+                  <el-progress :text-inside="true" :stroke-width="18" :percentage="dataStatistics.uploadEmoticonMonthPercentage * 100" color="rgb(32, 160, 255)" class="stroke-style"></el-progress>
+              </div>
+              <div style="margin-top: 10px;">
+                  <span>视频上传占比：</span>
+                  <el-progress :text-inside="true" :stroke-width="18" :percentage="dataStatistics.uploadVideoMonthPercentage * 100" color="rgba(142, 113, 199, 0.7)" class="stroke-style"></el-progress>
+              </div>
+          </el-card>
+      </div>
+      <div class="dashboard-right">
+          <el-card class="box-card-right">
+              <div slot="header" class="clearFix">
+                  <span>最近登录的用户</span>
+              </div>
+              <div style="margin-top: -15px;">
+                  <el-table
+                      :data="userTableData"
+                      style="width: 100%">
+                      <el-table-column
+                          prop="loginTime"
+                          min-width="110"
+                          label="日期">
+                          <template slot-scope="scope">
+                              {{scope.row.loginTime | timeFormat}}
+                          </template>
+                      </el-table-column>
+                      <el-table-column
+                          prop="loginName"
+                          min-width="160"
+                          label="用户ID">
+                      </el-table-column>
+                      <el-table-column
+                          prop="loginIp"
+                          min-width="100"
+                          label="登录IP">
+                      </el-table-column>
+                  </el-table>
+              </div>
+          </el-card>
+          <el-card class="box-card-right" style="margin-top: 15px;">
+              <span style="margin-bottom: 10px; display: inline-block;">近期上线功能</span>
+              <el-collapse v-model="activeNames">
+                  <el-collapse-item :title="versionInfo_0.versionName" name="1">
+                      <div>{{versionInfo_0.versionTime}}</div>
+                      <div>{{versionInfo_0.versionDescription}}</div>
+                  </el-collapse-item>
+                  <el-collapse-item :title="versionInfo_1.versionName" name="2">
+                      <div>{{versionInfo_1.versionTime}}</div>
+                      <div>{{versionInfo_1.versionDescription}}</div>
+                  </el-collapse-item>
+              </el-collapse>
+          </el-card>
+      </div>
   </div>
 </template>
 <script>
@@ -145,9 +153,9 @@ export default {
     data() {
         return {
             bannerList: [
-                { imgUrl: require('../../assets/admin-banner/banner-1.jpg'), title: 'banner_1' },
-                { imgUrl: require('../../assets/admin-banner/banner-2.jpg'), title: 'banner_2' },
-                { imgUrl: require('../../assets/admin-banner/banner-3.jpg'), title: 'banner_3' }
+                { imgUrl: 'https://gaoqiuzi-files.oss-cn-beijing.aliyuncs.com/admin-web-assets/banner-1.jpg?x-oss-process=style/gzip', title: 'banner_1' },
+                { imgUrl: 'https://gaoqiuzi-files.oss-cn-beijing.aliyuncs.com/admin-web-assets/banner-2.jpg?x-oss-process=style/gzip', title: 'banner_2' },
+                { imgUrl: 'https://gaoqiuzi-files.oss-cn-beijing.aliyuncs.com/admin-web-assets/banner-3.jpg?x-oss-process=style/gzip', title: 'banner_3' }
             ],
             activeNames: ['1', '2'],
             userTableData: [],
@@ -186,7 +194,7 @@ export default {
             let _this = this;
             _this.$http({
                 method: 'POST',
-                url: '/api/gqz/dashboard/getRecentUserLog'
+                url: _this.$api.getHomeProjectLink() + '/api/gqz/dashboard/getRecentUserLog'
             }).then((res) => {
                 if (res.code === 200) {
                     _this.userTableData = res.result;
@@ -204,7 +212,7 @@ export default {
             let _this = this;
             _this.$http({
                 method: 'POST',
-                url: '/api/gqz/dashboard/getDataStatistics'
+                url: _this.$api.getHomeProjectLink() + '/api/gqz/dashboard/getDataStatistics'
             }).then((res) => {
                 if (res.code === 200) {
                     _this.dataStatistics = res.result;
@@ -222,7 +230,7 @@ export default {
             let _this = this;
             _this.$http({
                 method: 'GET',
-                url: '/api/gqz/dashboard/getVersionInfo'
+                url: _this.$api.getHomeProjectLink() + '/api/gqz/dashboard/getVersionInfo'
             }).then((res) => {
                 if (res.code === 200) {
                     _this.versionInfoList = res.result;

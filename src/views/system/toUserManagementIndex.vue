@@ -1,4 +1,4 @@
-<style>
+<style rel="stylesheet/scss" lang="scss" scoped>
     /*面包屑导航样式*/
     .breadcrumb-con {
         margin-top:0;
@@ -14,9 +14,7 @@
         padding-bottom: 8px;
     }
     .page-header {
-        margin: 10px 0;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #c2c2c2;
+        margin-top: -10px;
     }
     /*分页*/
     .page-pagination-panel {
@@ -159,7 +157,7 @@
                 _this.$http({
                     method: 'POST',
                     data: data,
-                    url: '/api/gqz/system/user/queryUserList',
+                    url: _this.$api.getHomeProjectLink() + '/api/gqz/system/user/queryUserList',
                 }).then((res) => {
                     if (res.code === 200) {
                         _this.tableData = res.result.list;
@@ -187,7 +185,7 @@
                 }).then(() => {
                     _this.$http({
                         method: 'POST',
-                        url: '/api/gqz/system/user/dropUserById',
+                        url: _this.$api.getHomeProjectLink() + '/api/gqz/system/user/dropUserById',
                         data: data
                     }).then((res) => {
                         if (res.code === 200 && res.result) {

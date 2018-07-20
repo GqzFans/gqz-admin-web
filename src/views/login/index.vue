@@ -1,4 +1,4 @@
-<style lang='scss'>
+<style rel="stylesheet/scss" lang="scss" scoped>
     * {
         margin: 0;
         padding: 0;
@@ -10,7 +10,7 @@
         height: 100%;
     }
     .bg-body {
-        background: url('../../assets/images/bgi.jpg') no-repeat;
+        background: url('https://gaoqiuzi-files.oss-cn-beijing.aliyuncs.com/admin-web-assets/bgi.jpg?x-oss-process=style/gzip') no-repeat;
         background-size: cover;
         height: 100%;
         width: 100%;
@@ -30,7 +30,7 @@
         bottom: 0;
     }
     .in-box-left {
-        background: url('../../assets/images/lv-gqz.png') no-repeat -180px 0;
+        background: url('https://gaoqiuzi-files.oss-cn-beijing.aliyuncs.com/admin-web-assets/lv-gqz.png?x-oss-process=style/gzip') no-repeat -180px 0;
         background-size: cover;
         opacity: 0.7;
         filter: alpha(opacity=70);
@@ -40,24 +40,32 @@
     }
     .in-box-right {
         height: 100%;
+        float: left;
+        width: 42%;
+        position: relative;
     }
     .ipt-cls-name {
-        display: inline-block;
-        width: 110%;
-        margin: 155px 0 0 50px;
+        margin-top: 33px;
     }
     .ipt-cls-pwd {
-        display: inline-block;
-        width: 110%;
-        margin: 10px 0 0 50px;
+        width: 100%;
     }
     .ipt-cls-login {
-        display: inline-block;
-        width: 30%;
-        margin: 10px 0 0 50px;
+        width: 100%;
     }
-    .el-form-item__error {
-        margin-left: 50px;
+    .form-div {
+        width: 60%;
+        height: 200px;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+    .el-form-item-style {
+        width: 100%;
+        display: inline-block;
     }
 </style>
 <template>
@@ -65,14 +73,16 @@
         <div class="in-box">
             <div class="in-box-left"></div>
             <div class="in-box-right">
-                <el-form :inline="true" :model="loginModel" ref="loginModel" :rules="loginRules">
-                    <el-form-item label="" prop="loginName">
-                        <el-input v-model.trim = "loginModel.loginName" placeholder="登录名" class="ipt-cls-name"></el-input>
-                    </el-form-item>
-                    <el-form-item label="" prop="loginPwd">
-                        <el-input v-model.trim = "loginModel.loginPwd" type="password" placeholder="密码" class="ipt-cls-pwd"></el-input>
-                    </el-form-item>
-                    <el-button type="primary" plain class="ipt-cls-login" @click="submitForm('loginModel')">登 录</el-button>
+                <el-form :inline="true" :model="loginModel" ref="loginModel" :rules="loginRules" class="login-self-style">
+                    <div class="form-div">
+                        <el-form-item label="" prop="loginName" class="el-form-item-style">
+                            <el-input v-model.trim = "loginModel.loginName" placeholder="登录名" class="ipt-cls-name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="" prop="loginPwd" class="el-form-item-style">
+                            <el-input v-model.trim = "loginModel.loginPwd" type="password" placeholder="密码" class="ipt-cls-pwd"></el-input>
+                        </el-form-item>
+                        <el-button type="primary" plain class="ipt-cls-login" @click="submitForm('loginModel')">登 录</el-button>
+                    </div>
                 </el-form>
             </div>
         </div>
@@ -121,8 +131,8 @@
         methods: {
             getSecretToken() {
                 this.$http({
-                    method: 'post',
-                    url: '/api/uac/auth/token/getSecretToken'
+                    method: 'POST',
+                    url: this.$api.getHomeProjectLink() + '/api/uac/auth/token/getSecretToken'
                 }).then(res => {
                     this.secretToken = res.result;
                 }).catch(error => {
@@ -150,7 +160,7 @@
                 loginParam.systemId = 'ms';
                 this.$http({
                     method: 'post',
-                    url: '/api/uac/auth/login/login',
+                    url: this.$api.getHomeProjectLink() + '/api/uac/auth/login/login',
                     data: loginParam
                 }).then(res => {
                     let getUserInfo = res.result;
