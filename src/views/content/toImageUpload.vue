@@ -1,4 +1,4 @@
-<style>
+<style rel="stylesheet/scss" lang="scss" scoped>
     /*面包屑导航样式*/
     .breadcrumb-con {
         margin-top:0;
@@ -41,7 +41,7 @@
         </el-alert>
         <el-form :inline="true" :model="addModel" ref="addModel" label-width="100px">
             <div class="margin-top-10">
-                <el-form-item label="图片文案" prop="imageDescription">
+                <el-form-item label="图片文案" prop="imageDescription" style="margin-left: -20px;">
                     <el-input v-model.trim="addModel.imageDescription" class="input-col-500"></el-input>
                 </el-form-item>
                 <el-alert
@@ -82,11 +82,11 @@
                 dialogImageUrl: '',
                 dialogVisible: false,
                 addModel: {
-                    imageDescription: '高秋梓资源站',
+                    imageDescription: '安利小站',
                     imageList: []
                 },
                 token: {Authorization: 'Bearer ' + MyCookies.getNowCookie().token},
-                actionUrl: '/api/gqz/common/file/uploadImage'
+                actionUrl: this.$api.getHomeProjectLink() + '/api/gqz/common/file/uploadImage'
             };
         },
         methods: {
@@ -146,7 +146,7 @@
                 // console.log('submitForm -> ', data);
                 _this.$http({
                     method: 'post',
-                    url: '/api/gqz/content/image/addGqzImage',
+                    url: _this.$api.getHomeProjectLink() + '/api/gqz/content/image/addGqzImage',
                     data: data
                 }).then(res => {
                     if (res.code === 200 && res.result) {

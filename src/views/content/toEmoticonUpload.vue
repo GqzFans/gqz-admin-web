@@ -1,4 +1,4 @@
-<style>
+<style rel="stylesheet/scss" lang="scss" scoped>
     /*面包屑导航样式*/
     .breadcrumb-con {
         margin-top:0;
@@ -88,7 +88,7 @@
                     imageList: []
                 },
                 token: {Authorization: 'Bearer ' + MyCookies.getNowCookie().token},
-                actionUrl: '/api/gqz/common/file/uploadEmoticon'
+                actionUrl: this.$api.getHomeProjectLink() + '/api/gqz/common/file/uploadEmoticon'
             };
         },
         methods: {
@@ -102,7 +102,7 @@
                 // console.log('submitForm -> ', data);
                 _this.$http({
                     method: 'post',
-                    url: '/api/gqz/content/emoticon/addGqzEmoticon',
+                    url: _this.$api.getHomeProjectLink() + '/api/gqz/content/emoticon/addGqzEmoticon',
                     data: data
                 }).then(res => {
                     if (res.code === 200 && res.result) {
