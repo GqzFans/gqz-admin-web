@@ -144,7 +144,7 @@ Vue.prototype.$http.interceptors.response.use((res) => {
     if (res.data.code !== 200) {
         if (res.data.code === 10009 || res.data.code === 10010 || res.data.code === 10011 || res.data.code === 403) {
             // TOKEN解析失败 || 操作频率过快, 您的帐号已被冻结 || 会话超时,请刷新页面重试 || jwt验签失败,DTO为空
-            Message.error(res.data.message);
+            // Message.error(res.data.message);
             LogOut(false, false);
             // this.$router.push({name: 'login'});
             // window.location.href = '';
