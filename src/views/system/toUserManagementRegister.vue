@@ -84,8 +84,8 @@
             let validateLoginName = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('请输入登录名'));
-                } else if (value.length < 3) {
-
+                } else if (value.length < 2) {
+                    callback(new Error('登录名最少为2位字符'));
                 } else {
                     callback();
                 }
