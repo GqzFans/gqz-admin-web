@@ -43,22 +43,22 @@
             <div class="margin-top-20">
                 <div>
                     <el-form-item label="登录名" prop="loginName" required>
-                        <el-input v-model="addModel.loginName" class="input-col-600"></el-input>
+                        <el-input v-model.trim="addModel.loginName" class="input-col-600"></el-input>
                     </el-form-item>
                 </div>
                 <div>
                     <el-form-item label="昵称" prop="nickName" required>
-                        <el-input v-model="addModel.nickName" class="input-col-600"></el-input>
+                        <el-input v-model.trim="addModel.nickName" class="input-col-600"></el-input>
                     </el-form-item>
                 </div>
                 <div>
                     <el-form-item label="系统生成密码" prop="loginPwd" required>
-                        <el-input v-model="addModel.loginPwd" class="input-col-600" disabled></el-input>
+                        <el-input v-model.trim="addModel.loginPwd" class="input-col-600" disabled></el-input>
                     </el-form-item>
                 </div>
                 <div>
                     <el-form-item label="用户信息发送邮箱" prop="mail" required>
-                        <el-input v-model="addModel.mail" class="input-col-600"></el-input>
+                        <el-input v-model.trim="addModel.mail" class="input-col-600"></el-input>
                     </el-form-item>
                 </div>
                 <div>
@@ -180,7 +180,7 @@
                 if (registerParam.systemId === 0) {
                     registerParam.systemId = 'gqz-zyz';
                 }
-                this.$http({
+                _this.$http({
                     method: 'post',
                     url: _this.$api.getHomeProjectLink() + '/api/uac/auth/register/register',
                     data: registerParam

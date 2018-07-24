@@ -79,7 +79,8 @@
                             <el-input v-model.trim = "loginModel.loginName" placeholder="登录名" class="ipt-cls-name"></el-input>
                         </el-form-item>
                         <el-form-item label="" prop="loginPwd" class="el-form-item-style">
-                            <el-input v-model.trim = "loginModel.loginPwd" type="password" placeholder="密码" class="ipt-cls-pwd"></el-input>
+                            <el-input v-model.trim = "loginModel.loginPwd" type="password" placeholder="密码" class="ipt-cls-pwd"
+                                      @keyup.enter.native="submitForm('loginModel')"></el-input>
                         </el-form-item>
                         <el-button type="primary" plain class="ipt-cls-login" @click="submitForm('loginModel')">登 录</el-button>
                     </div>

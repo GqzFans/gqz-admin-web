@@ -76,6 +76,8 @@
             <el-dropdown class="w-top-drop-down">
                 <i class="el-icon-setting"></i>
                 <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item @click.native="changePwd()">修改密码</el-dropdown-item>
+                    <hr style="width: 80%; border: 1px solid #e8e8e8;"/>
                     <el-dropdown-item @click.native="logOut()">退出</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
@@ -178,6 +180,9 @@
             },
             logOut() {
                 LogOut();
+            },
+            changePwd() {
+                this.$router.push({name: 'userChangePwd'});
             }
         }
     };
