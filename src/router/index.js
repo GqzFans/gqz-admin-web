@@ -83,6 +83,16 @@ export default [
                 name: 'userManagementRegister',
                 path: '/system/toUserManagementRegister',
                 component: resolve => require(['../views/system/toUserManagementRegister'], resolve)
+            },
+            {
+                meta: {
+                    name: '修改密码',
+                    keepAlive: false,
+                    auth: true
+                },
+                name: 'userChangePwd',
+                path: '/system/toUserChangePwd',
+                component: resolve => require(['../views/system/toUserChangePwd'], resolve)
             }
         ]
     },
