@@ -116,6 +116,7 @@
                             <span>系统管理</span>
                         </template>
                         <el-menu-item index="2-1" :route='{path: systemMenuList[0].path}'>用户管理</el-menu-item>
+                        <el-menu-item index="2-2" :route='{path: systemMenuList[1].path}'>意见反馈</el-menu-item>
                     </el-submenu>
                 </el-menu>
             </el-col>
@@ -145,7 +146,8 @@
                     {id: '1-2', path: '/content/toEmoticon'} // 图片管理
                 ],
                 systemMenuList: [
-                    {id: '2-1', path: '/system/toUserManagement'} // 用户管理
+                    {id: '2-1', path: '/system/toUserManagement'}, // 用户管理
+                    {id: '2-2', path: '/system/toFeedback'} // 意见反馈
                 ]
             };
         },

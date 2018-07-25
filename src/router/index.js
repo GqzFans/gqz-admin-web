@@ -93,6 +93,16 @@ export default [
                 name: 'userChangePwd',
                 path: '/system/toUserChangePwd',
                 component: resolve => require(['../views/system/toUserChangePwd'], resolve)
+            },
+            {
+                meta: {
+                    name: '意见反馈',
+                    keepAlive: false,
+                    auth: true
+                },
+                name: 'feedback',
+                path: '/system/toFeedback',
+                component: resolve => require(['../views/system/toFeedback'], resolve)
             }
         ]
     },
