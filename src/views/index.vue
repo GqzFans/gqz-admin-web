@@ -107,7 +107,7 @@
                             <el-menu-item index="1-2" :route='{path: contentMenuList[1].path}'>表情包管理</el-menu-item>
                         </el-menu-item-group>
                         <el-menu-item-group title="视频系列">
-                            <el-menu-item index="1-3" disabled>视频管理</el-menu-item>
+                            <el-menu-item index="1-3" :route='{path: contentMenuList[2].path}'>视频管理</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                     <el-submenu index="2">
@@ -143,7 +143,8 @@
                 ],
                 contentMenuList: [
                     {id: '1-1', path: '/content/toImage'}, // 图片管理
-                    {id: '1-2', path: '/content/toEmoticon'} // 图片管理
+                    {id: '1-2', path: '/content/toEmoticon'}, // 图片管理
+                    {id: '1-3', path: '/content/toVideo'} // 图片管理
                 ],
                 systemMenuList: [
                     {id: '2-1', path: '/system/toUserManagement'}, // 用户管理

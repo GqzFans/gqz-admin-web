@@ -66,6 +66,26 @@ export default [
             },
             {
                 meta: {
+                    name: '视频管理',
+                    keepAlive: true,
+                    auth: true
+                },
+                name: 'contentVideo',
+                path: '/content/toVideo',
+                component: resolve => require(['../views/content/toVideoIndex'], resolve)
+            },
+            {
+                meta: {
+                    name: '添加视频',
+                    keepAlive: false,
+                    auth: true
+                },
+                name: 'contentVideoUpload',
+                path: '/content/toVideoUpload',
+                component: resolve => require(['../views/content/toVideoUpload'], resolve)
+            },
+            {
+                meta: {
                     name: '用户管理',
                     keepAlive: false,
                     auth: true
