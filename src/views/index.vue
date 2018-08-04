@@ -118,6 +118,13 @@
                         <el-menu-item index="2-1" :route='{path: systemMenuList[0].path}'>用户管理</el-menu-item>
                         <el-menu-item index="2-2" :route='{path: systemMenuList[1].path}'>意见反馈</el-menu-item>
                     </el-submenu>
+                    <el-submenu index="3">
+                        <template slot="title">
+                            <i class="el-icon-share"></i>
+                            <span>数据分析</span>
+                        </template>
+                        <el-menu-item index="3-1" :route='{path: dataMenuList[0].path}'>微视数据分析</el-menu-item>
+                    </el-submenu>
                 </el-menu>
             </el-col>
             <el-col :span="20" class="route-box-style">
@@ -149,6 +156,9 @@
                 systemMenuList: [
                     {id: '2-1', path: '/system/toUserManagement'}, // 用户管理
                     {id: '2-2', path: '/system/toFeedback'} // 意见反馈
+                ],
+                dataMenuList: [
+                    {id: '3-1', path: '/data/toWsData'} // 微视数据分析
                 ]
             };
         },
@@ -158,8 +168,11 @@
         computed: {
             activeId() {
                 let _this = this;
-                _this.menuList = [].concat(_this.mainMenuList).concat(_this.contentMenuList).concat(_this.systemMenuList);
-                // console.log('menuList = ', _this.menuList);
+                _this.menuList = []
+                    .concat(_this.mainMenuList)
+                    .concat(_this.contentMenuList)
+                    .concat(_this.systemMenuList)
+                    .concat(_this.dataMenuList);
                 // 根据路由匹配选中项
                 var activeId = null;
                 _this.menuList.forEach((item) => {

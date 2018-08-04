@@ -52,7 +52,8 @@ import {
     Notification,
     Tag,
     Radio,
-    RadioGroup
+    RadioGroup,
+    Checkbox
 } from 'element-ui';
 const components = [
     Header,
@@ -91,7 +92,8 @@ const components = [
     Notification,
     Tag,
     Radio,
-    RadioGroup
+    RadioGroup,
+    Checkbox
 ];
 
 Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
@@ -162,7 +164,7 @@ Vue.prototype.$http.interceptors.response.use((res) => {
 });
 
 // 自定义全局变量
-const domainInfo = '高秋梓资源站管理系统';
+const domainInfo = '高秋梓资源数据管理系统';
 Vue.prototype.GLOBAL_DOMAIN_INFO = domainInfo;
 // Main
 new Vue({
