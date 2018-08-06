@@ -123,6 +123,36 @@ export default [
                 name: 'feedback',
                 path: '/system/toFeedback',
                 component: resolve => require(['../views/system/toFeedback'], resolve)
+            },
+            {
+                meta: {
+                    name: '微视数据分析',
+                    keepAlive: false,
+                    auth: true
+                },
+                name: 'wsData',
+                path: '/data/toWsData',
+                component: resolve => require(['../views/data/toWsDataIndex'], resolve)
+            },
+            {
+                meta: {
+                    name: '添加微视数据分析',
+                    keepAlive: false,
+                    auth: true
+                },
+                name: 'dataWsAdd',
+                path: '/data/toWsDataAnalysis',
+                component: resolve => require(['../views/data/toWsDataAnalysis'], resolve)
+            },
+            {
+                meta: {
+                    name: '查看微视数据分析图表',
+                    keepAlive: false,
+                    auth: true
+                },
+                name: 'dataWsCharts',
+                path: '/data/toWsDataCharts',
+                component: resolve => require(['../views/data/toWsDataCharts'], resolve)
             }
         ]
     },
