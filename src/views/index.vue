@@ -1,6 +1,7 @@
 <style rel="stylesheet/scss" lang="scss" scoped>
     html, body, .warp {
         height: 100%;
+        min-width: 1450px;
     }
     body>div:first-child {
         height: 100%;

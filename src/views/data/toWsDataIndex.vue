@@ -65,13 +65,13 @@
                 <el-table-column
                     label="微视短视频参考标题"
                     prop="wsVideoTitle"
-                    min-width="60"
+                    min-width="80"
                     show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
                     label="微视短视频源地址"
                     prop="wsVideoUrl"
-                    min-width="170"
+                    min-width="130"
                     show-overflow-tooltip>
                     <template slot-scope="scope">
                         <a :href="scope.row.wsVideoUrl" target="_blank">{{scope.row.wsVideoUrl}}</a>
@@ -95,7 +95,7 @@
                 <el-table-column
                     label="创建人"
                     prop="createUserName"
-                    min-width="40"
+                    min-width="60"
                     show-overflow-tooltip>
                 </el-table-column>
                 <el-table-column
@@ -107,7 +107,7 @@
                 <el-table-column
                     label="操作"
                     fixed="right"
-                    width="200">
+                    min-width="130">
                     <template slot-scope="scope">
                         <el-button style="color: #409EFF;" type="text" size="small" @click="showDetail(scope.row)">
                             查看数据
