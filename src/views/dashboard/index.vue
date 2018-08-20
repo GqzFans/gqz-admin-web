@@ -153,7 +153,6 @@ export default {
     data() {
         return {
             bannerList: [
-                { imgUrl: 'https://gaoqiuzi-files.oss-cn-beijing.aliyuncs.com/admin-web-assets/banner-1.jpg?x-oss-process=style/gzip', title: 'banner_1' },
                 { imgUrl: 'https://gaoqiuzi-files.oss-cn-beijing.aliyuncs.com/admin-web-assets/banner-2.jpg?x-oss-process=style/gzip', title: 'banner_2' },
                 { imgUrl: 'https://gaoqiuzi-files.oss-cn-beijing.aliyuncs.com/admin-web-assets/banner-3.jpg?x-oss-process=style/gzip', title: 'banner_3' }
             ],
